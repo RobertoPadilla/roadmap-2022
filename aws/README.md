@@ -6,6 +6,63 @@ Es un modelo de arquitectura provisionado por AWS el cual permite auto escalar n
 ## EC2
 Es una computadora virtual con recursos que nosotros especificamos.
 
+Descripción de nombres de instancias EC2:
+- primera posicion: letra que define la clase de familia
+- segunda posicion: numero que acompaña a la familia, este numero representa la generacion de el tipo de familia
+- tercera posicion(no siempre existe): letra que representa una mejora sobre previas versiones de esta familia y esta generación. 
+    - Si es una letra "g" es por que la instancia está construida con el procesador de Amazon "Graviton2". ej R6g.
+    - Si es una letra "a" es por que trabaja con AMD. ej. R5a.
+    - Si es una letra "n" es por que trabaja con un procesador Xeon 2nd Generacion. ej R5n.
+- descripcion despúes del punto: tamaño de caracteristicas de hardware (RAM, CPU, TARJETA DE RED) el almacenamiento no está incluido ya que este se puede incrementar por aparte.
+
+Tipos de instancias:
+- General Purpose
+- Compute Optimized
+- Memory Optimized
+- Accelerated Computing
+- Storage Optimized
+
+Estrategias de costo:
+- On-Demand: Paga por lo que se consume. Inicia/Termina según necesidad.
+- Spot Instances: Ahorra hasta un 90% en comparación de On-Demand. Su principal caracteristica es que puede que se interrumpan debido a una especie de subasta, depende de la demanda actual de ese servicio de AWS.
+- Reserved instances (RI): Ahorra hasta un 75% en comparación al precio On-Demand. Se hace un contrato para reservar una instancia minimo por un año, el pago es flexible, se puede pagar en diferentes modalidades.
+    - Standars RI: Estos proporcionan el descuento más significativo (hasta un 72% de descuento bajo demanda) y son los más adecuados para el uso en estado estable. (Si no se ocupa la capacidad de cómputo ni el tiempo especificado, aún así amazon cobrará por todo el tiempo predefinido)
+    - Convertible RI: (hasta un 54% de descuento bajo demanda) Ofrece la capacidad de cambiar los atributos de la instancia reservada siempre que el intercambio dé como resultado la creación de instancias reservadas de igual o mayor valor. Este se paga al final para calcular los costos extras si es que se modificó la familia de la instancia.
+    - Scheduled RI: Estos permiten reservar instancias por un tiempo aún más determinado, una semana, un més o un día.
+- Saving Plans: A diferencia de los RI, estos planes son más flexibles en cuanto al uso de la capacidad de computo.
+- Dedicated Host: Un servidor fisico dedicado. Se puede obtener un 70% de descuento reservandolo.
+
+### Auto Scaling Groups (ASG)
+Servicio para aumentar y decrementar capacidad de computo de manera horizontal automaticamente.
+~~~txt
+Minimum size: 1
+Desired capacity: 2
+Maximum size: 4
+~~~
+- Minimun size: Tamaño de instancias minimas a las que podemos permitirnos llegar.
+- Desired capacity: Tamaño deseado para ofrecer a nuestros clientes.
+- Maximum size: Tamaño de instancias máximas que podemos permitirnos tener.
+
+#### Scaling Policies
+Manual: Hacer todo el escalado de forma manual con los LT.
+Squeduled: Programar en el tiempo el estado de escalamiento.
+Dynamic: Dependiendo el estado de las instancias se escalan automaticamente.
+
+### Launch Template
+Plantilla para lanzar rápidamente una instancia preconfigurada o usar el servicio de ASG. (Se recomienda usar esta herramienta en lugar de Launch configuration)
+
+### Launch Configuration
+Principalmente sirven para la configuración de ASG.
+
+### Elastic Load Balancer (ELB)
+Servicio que brinda Alta Disponibilidad, distibuyendo la carga de solicitudes entre diferentes instancias para no saturar una sola de estas.
+
+Se distribuyen en 2 zonas de disponibilidad, esto con el fin de aumentar la disponibilidad de nuestra aplicacion, esto por el motivo de: si una zona de disponibilidad se cae, tener disponible la aplicacion en otra zona.
+
+Tipos:
+- Classic: Primer tipo de balanceador que surgió. Pronto en desuso. Aplicable para TCP y HTTP.
+- Application Load Balancer (ALB): Opera sobre el modelo OSI trabaja sobre la capa 7 y es aplicable para HTTP/HTTPS. Inteligente.
+- Network Load Balancer (NLB): Ofrecen IP Fija sin importar las zonas de disponibilidad configuradas. Aplicable para TCP. Trabaja sobre la capa 4 del modelo OSI. Alto rendimiento.
 ## Lambda
 Un servicio serverless de amazon, el cual nos permite ejecutar un pedazo de código sobre peticion, este proceso gestiona los recursos de manera automatica. Nos permite seleccionar el lenguaje que necesitemos y solamente queda subir nuestro código.
 
@@ -61,14 +118,24 @@ Permite que las aplicaciones alcancen niveles elevados de rendimiento.
 ## RDS
 Relational Database Service. Brinda múltiples opciones para gestionar bases de datos relacionales MySQL y Postgres. 
 
-- Aurora: Este servicio es un intento de Amazon de optimizar el performance de las bases de datos relacionales. Son recomendables debido a esto. La velocidad aumenta y el rendimiento en general.
+- Aurora: Este servicio es un intento de Amazon de optimizar el performance de las bases de datos relacionales (compatible con MySQL y PostgreSQL). Son recomendables debido a esto. La velocidad aumenta junto al rendimiento en general.
+
+## DMS (Data Migration Service)
+Usado para migrar bases de datos relacionales on premise (montados por nosotros mismos) a servicios de AWS
+
+## DynamoDB
+Base de datos clave-valor y documentos, soporta +20 millones de solicitudes por segundo.
+
+Usado para arquitecturas:
+- Serverless
+- Backend Moviles
+- Microservicios
 
 ## Route 53
 Permite modificar y administrar el DNS, registrar o transferir dominios, crear subdominios
 
 ## IAM
-Permite gestionar los usuarios que acceden a la consola de AWS.
-
+Permite gestionar los usuarios que acceden a la consola de AWS. Un usuario puede asociarse con 10 grupos como máximo en paralelo.
 
 # Tools
 
@@ -82,6 +149,6 @@ Policy Generator [here](https://awspolicygen.s3.amazonaws.com/policygen.html)
 Amazon calculator [here](https://calculator.aws/).
 
 ## AWS Accelerated Transfer Tool (General)
-Tool [here](http://s3-accelerate-speedtest.s3-accelerate.amazonaws.com/en/accelerate-speed-comparsion.html)
+[Tool](http://s3-accelerate-speedtest.s3-accelerate.amazonaws.com/en/accelerate-speed-comparsion.html)
 ## AWS Accelerated Transfer Tool (Personalized)
-Tool [here](https://s3-accelerate-speedtest.s3-accelerate.amazonaws.com/en/accelerate-speed-comparsion.html?region=COLOCARAQUILAREGION&origBucketName=COLOCARAQUINOMBREBUCKET) *(Cambiar los parametros marcados en mayusculas)*
+[Tool](https://s3-accelerate-speedtest.s3-accelerate.amazonaws.com/en/accelerate-speed-comparsion.html?region=COLOCARAQUILAREGION&origBucketName=COLOCARAQUINOMBREBUCKET) *(Cambiar los parametros marcados en mayusculas)*
