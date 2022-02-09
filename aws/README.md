@@ -63,18 +63,68 @@ Tipos:
 - Classic: Primer tipo de balanceador que surgió. Pronto en desuso. Aplicable para TCP y HTTP.
 - Application Load Balancer (ALB): Opera sobre el modelo OSI trabaja sobre la capa 7 y es aplicable para HTTP/HTTPS. Inteligente.
 - Network Load Balancer (NLB): Ofrecen IP Fija sin importar las zonas de disponibilidad configuradas. Aplicable para TCP. Trabaja sobre la capa 4 del modelo OSI. Alto rendimiento.
+
+## VPC (Virtual Private Cloud)
+Aislamiento de una parte lógica de la infraestructura de Amazon.
+
+Tiene las siguientes caracteristicas:
+- Subnet
+- Route Table
+- Internet Gateway
+- Network ACL (NACL)
+- Security Group (SG)
+- NAT (Gateway o Instance) # Servicio administrado que es cobrado.
 ## Lambda
 Un servicio serverless de amazon, el cual nos permite ejecutar un pedazo de código sobre peticion, este proceso gestiona los recursos de manera automatica. Nos permite seleccionar el lenguaje que necesitemos y solamente queda subir nuestro código.
 
 ## CloudShell
 Brinda el servicio de AWS CLI mediante una interfaz web.
 
+## SNS
+Servicio de mensajeria administrado por AWS.
+
+Permite la comunicacion de Aplicacion a Aplicacion (A2A) y de Aplicacion a Persona (A2P).
+
+Permite notificaciones a un dispositivo movil con Notificaciones push, correo electronico y SMS.
+
+## AWS Config
+Servicio que permite examinar todo el comportamiento dentro de la cuenta de AWS.
+
+Permite:
+- Evaluar las configuraciones de los recursos (Arrojan niveles de Cumplimiento - Incumplimiento). Sirver para cumplir con normas de seguridad.
+- Responde a cambios en las configuraciones y relaciones de los recursos que no se hayan autorizado (registro de movimientos por usuario).
+- Evaluacion continua.
+- Administracion de cambios.
+- Monitoreo de conformidad en toda la compañia.
+
 ## Cloud Watch
 Sistema de métricas. Se muestra graficamente el estado de nuestra arquitectura y de todos nuestros servicios. También permite configurar alarmas relacionadas a nuestros servicios.
 Otra funcion de este servicio es registrar logs de nuestras aplicaciones e instancias.
 
+Posibles configuraciones:
+- Alarmas
+- Métricas
+- Eventos
+
+Tipos de monitoreo:
+- Básico (Gratis y por default registros cada 5min)
+- Detallado (Costo registros cada 60s)
+
 ## Cloud Trail
 Herramienta que permite registrar la actividad de los usuarios IAM en la consola de amazon.
+
+## CloudFront
+Pemite acercar a usuarios alejados de la region donde se sirve tu aplicacion mediante puntos de precencia (PoP).
+- Es un servicio CDN
+- Almacena contenido en caché en PoP (Poin of Precense) más cercanos a los clientes.
+- Baja latencia.
+- Alto Rendimiento.
+- Compatible para manejar contenido estático y dinámico.
+
+Caracteristicas:
+- Origin: Ubicación origin de tu contenido.
+- Distribution: Tipo de configuración. Contenido estatico, dinamico o para streming.
+- Edge Location: PoP.
 
 ## ACM
 Administrador de certificados SSL/TLS. Esta herramienta permite registrar servicios con estos certificados, pero no gratuitamente para todos ellos, solo para Elastic Load Balancing (ELB) Amazon CloudFront, Cognito, Elastic Beanstalk, App Runner, API Gateway, Nitro Enclaves y CloudFormation (05/01/2022)
@@ -132,11 +182,58 @@ Usado para arquitecturas:
 - Microservicios
 
 ## Route 53
-Permite modificar y administrar el DNS, registrar o transferir dominios, crear subdominios
+Permite modificar y administrar el DNS, registrar o transferir dominios, crear subdominios.
+
+Caracteristicas:
+- Hosted Zone: Registrar dominio - comprarlo o migrarlo. Pueden ser publicos (Internert) o privados (VPC).
+- RecordSet: Son los subdominios.
 
 ## IAM
 Permite gestionar los usuarios que acceden a la consola de AWS. Un usuario puede asociarse con 10 grupos como máximo en paralelo.
 
+## AWS Shield
+Brinda protección contra ataques DDoS. Brinda protección a nivel de la capa 4 del Modelo OSI.
+- Shield Standard (Gratis y por default en la cuenta)
+- Shield Advanced (Costo ~$3,000/mes):
+    - Equipo de respuesta anti-incidentes
+    - Disponible 24/7
+
+## AWS WAF
+Brinda protección contra ataques web. Brinda protección a nivel de la capa 7 del Modelo OSI. (Costo)
+
+Reglas de WAF:
+- Custom: Reglas personalizadas acorde a nuestro negocio
+- Administradas por AWS: Reglas brindadas por AWS
+- Brindadas por un vendor: Capacidad de contratar las reglas de otro proveedor en el marketplace de AWS.
+
+## Amazon Inspector
+Servicio automatico de evaluación de seguridad. Se ejecuta sobre instancias EC2 tanto Windows y Linux. (Capa gratuita)
+
+## Amazon Macie
+Es un servicio que nos brinda descubrimiento y protección de datos confidenciales. (Capa free)
+
+Macie utiliza ML (Machine Learning) para poder evaluar los datos que tengas en buckets S3, y descubrir datos como:
+- Numeros de tarjeta de creditos
+- Contraseñas
+- Keypair
+
+## AWS KMS (Key Managment Service)
+Permite crear y controlar las claves de cifrado de forma sencilla a traves de una amplia variedad de servicios AWS (Capa gratuita)
+
+## AWS SSM
+Brinda visibilidad y control para nuestra infraestructura AWS.
+
+A traves de este servicio se puede administrar de forma operativa y automatica los recursos de AWS. (Capa gratuita)
+
+## Trusted Advisor
+Es una herramienta online que nos provee de asesoramiento en tiempo real ayudandonos en el aprovisonamiento de recursos con las mejores practicas recomendadas de AWS. *En pocas palabras son consejos que esta herramienta nos da día a día para mejorar la infraestructura del negocio.*
+
+En general ayudan a optimizar la infraestructura aumentando el nivel de:
+- Seguridad
+- Rendimiento
+- Ahorro de costos
+- Tolerancia a fallos
+- Limites de servicios
 # Tools
 
 ## AWS CLI Builder
