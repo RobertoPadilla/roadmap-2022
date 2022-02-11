@@ -236,6 +236,8 @@ En general ayudan a optimizar la infraestructura aumentando el nivel de:
 - Limites de servicios
 # Tools
 
+## Cloud Ping
+Cloud Ping [here](https://www.cloudping.info/)
 ## AWS CLI Builder
 CLI Builder [here](https://awsclibuilder.com/home)
 
